@@ -1,0 +1,108 @@
+﻿using DAN_XLIII_Kristina_Garcia_Francisco.Command;
+using DAN_XLIII_Kristina_Garcia_Francisco.Model;
+using DAN_XLIII_Kristina_Garcia_Francisco.View;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Input;
+
+namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
+{
+    class LoginViewModel : BaseViewModel
+    {
+        Login view;
+        Service service = new Service();
+
+        public LoginViewModel(Login loginView)
+        {
+            view = loginView;
+            user = new tblUser();
+            UserList = service.GetAllUsers().ToList();
+        }
+
+        private string infoLabel;
+        public string InfoLabel
+        {
+            get
+            {
+                return infoLabel;
+            }
+            set
+            {
+                infoLabel = value;
+                OnPropertyChanged("InfoLabel");
+            }
+        }
+
+        private tblUser user;
+        public tblUser User
+        {
+            get
+            {
+                return user;
+            }
+            set
+            {
+                user = value;
+                OnPropertyChanged("User");
+            }
+        }
+
+        private List<tblUser> userList;
+        public List<tblUser> UserList
+        {
+            get
+            {
+                return userList;
+            }
+            set
+            {
+                userList = value;
+                OnPropertyChanged("UserList");
+            }
+        }
+
+        private ICommand login;
+        public ICommand Login
+        {
+            get
+            {
+                if (login == null)
+                {
+                    login = new RelayCommand(LoginExecute);
+                }
+                return login;
+            }
+        }
+
+        private void LoginExecute(object obj)
+        {
+            string password = (obj as PasswordBox).Password;
+            if (UserList.Any())
+            {
+                for (int i = 0; i < UserList.Count; i++)
+                {
+                    if (User.Username == UserList[i].Username && password == UserList[i].UserPassword)
+                    {                       
+                    }
+                }
+
+                InfoLabel = "Incorrect Username or Password";
+            }
+            else
+            {
+                InfoLabel = "Database is empty";
+            }
+
+            if (User.Username == "WPFadmin" && password == "WPFadmin")
+            {
+                MainWindow main = new MainWindow();
+                view.Close();
+                main.Show();
+            }
+        }
+    }
+}

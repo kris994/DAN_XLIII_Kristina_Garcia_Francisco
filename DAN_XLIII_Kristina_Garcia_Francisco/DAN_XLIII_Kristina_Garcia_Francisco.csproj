@@ -64,6 +64,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Command\RelayCommand.cs" />
+    <Compile Include="Helper\Validation.cs" />
+    <Compile Include="Service.cs" />
+    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="View\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -76,6 +84,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\ReportDB.Context.cs">
@@ -83,10 +95,30 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ReportDB.Context.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\ReportDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReportDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\ReportDB.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ReportDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\tblReport.cs">
+      <DependentUpon>ReportDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\tblUser.cs">
+      <DependentUpon>ReportDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\vwManager.cs">
+      <DependentUpon>ReportDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\vwUser.cs">
+      <DependentUpon>ReportDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\vwUserReport.cs">
+      <DependentUpon>ReportDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -125,7 +157,13 @@
     <Content Include="DDL\DDL.sql" />
     <Content Include="Model\ReportDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ReportDB.edmx</DependentUpon>
       <LastGenOutput>ReportDB.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model\ReportDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ReportDB.edmx</DependentUpon>
+      <LastGenOutput>ReportDB.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
