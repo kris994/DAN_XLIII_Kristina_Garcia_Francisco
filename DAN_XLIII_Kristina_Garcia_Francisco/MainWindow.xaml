@@ -4,8 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DAN_XLIII_Kristina_Garcia_Francisco"
+        xmlns:c="clr-namespace:DAN_XLIII_Kristina_Garcia_Francisco.Converter"
         mc:Ignorable="d"
         Title="MainWindow" Height="auto" MaxHeight="450" Width="auto" MaxWidth="800" Background="#5BCED0">
+    <Window.Resources>
+        <c:ReportPositionConverter x:Key="ReportPositionConverter" />
+        <c:ReportNameConverter x:Key="ReportNameConverter" />
+    </Window.Resources>
     <Grid Margin="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -14,12 +19,16 @@
             <RowDefinition Height="20"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
             <Button Width="80" Height="20" Name="btnLogoff" Content="Log Off"
                     Command="{Binding Logoff, UpdateSourceTrigger=PropertyChanged}" Margin="20,4,4,4" FontWeight="Bold"/>
             <Button Width="80" Height="20" Name="btnAddWorker" Content="Add Worker" Visibility="{Binding ModifyVisibility}"
                     Command="{Binding AddNewWorker, UpdateSourceTrigger=PropertyChanged}" Margin="20,4,4,4" FontWeight="Bold"/>
+            <Button Width="80" Height="20" Name="btnAddReport" Content="Add Report" Visibility="{Binding ReportVisibility}"
+                    Command="{Binding AddNewReport, UpdateSourceTrigger=PropertyChanged}" Margin="20,4,4,4" FontWeight="Bold"/>
         </StackPanel>
         <Grid Grid.Column="1" Grid.Row="2" Height="auto" Width="auto" Visibility="{Binding WorkerVisibility}">
             <DataGrid Name="DataGridUsers" ItemsSource="{Binding WorkerList, UpdateSourceTrigger=PropertyChanged}"
@@ -73,6 +82,94 @@
                                 <Setter Property="Visibility" Value="{Binding Path=DataContext.ModifyVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" />
                             </Style>
                         </DataGridTemplateColumn.HeaderStyle>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        
+        <Grid Grid.Column="1" Grid.Row="3" Height="auto" Width="auto" Visibility="{Binding AllReportsVisibility}">
+            <DataGrid Name="DataGridReports" ItemsSource="{Binding ReportList, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding Report, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" HeadersVisibility="Column"
+                      AutoGenerateColumns="False"
+                      HorizontalGridLinesBrush="Black" BorderBrush="Black" Foreground="Black"
+                      FontWeight="Bold" Margin="20">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding UserID, Converter={StaticResource ResourceKey=ReportNameConverter}}"/>
+                    <DataGridTextColumn Header="Date" Binding="{Binding ReportDate, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                    <DataGridTextColumn Header="Project" Binding="{Binding Project}"/>
+                    <DataGridTextColumn Header="Position" Binding="{Binding UserID, Converter={StaticResource ResourceKey=ReportPositionConverter}}"/>
+                    <DataGridTextColumn Header="Hours" Binding="{Binding ReportHours}"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="btnDeleteWorker" Content="Delete" 
+                                Command="{Binding DataContext.DeleteReport, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        Margin="4" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="Visibility" Value="{Binding DataContext.SectorVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"/>
+                            </Style>
+                        </DataGridTemplateColumn.CellStyle>
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Visibility" Value="{Binding Path=DataContext.SectorVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" />
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="btnWorker" Content="Edit"
+                                Command="{Binding DataContext.EditReport, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        Margin="4" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="Visibility" Value="{Binding DataContext.SectorVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"/>
+                            </Style>
+                        </DataGridTemplateColumn.CellStyle>
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Visibility" Value="{Binding Path=DataContext.SectorVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" />
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="3" Height="auto" Width="auto" Visibility="{Binding ReportVisibility}">
+            <DataGrid Name="DataGridWorkerReports" ItemsSource="{Binding WorkerReportList, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding Report, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" HeadersVisibility="Column"
+                      AutoGenerateColumns="False"
+                      HorizontalGridLinesBrush="Black" BorderBrush="Black" Foreground="Black"
+                      FontWeight="Bold" Margin="20">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding UserID, Converter={StaticResource ResourceKey=ReportNameConverter}}"/>
+                    <DataGridTextColumn Header="Date" Binding="{Binding ReportDate, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                    <DataGridTextColumn Header="Project" Binding="{Binding Project}"/>
+                    <DataGridTextColumn Header="Position" Binding="{Binding UserID, Converter={StaticResource ResourceKey=ReportPositionConverter}}"/>
+                    <DataGridTextColumn Header="Hours" Binding="{Binding ReportHours}"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="btnDeleteWorker" Content="Delete" 
+                                Command="{Binding DataContext.DeleteReport, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        Margin="4" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="btnWorker" Content="Edit"
+                                Command="{Binding DataContext.EditReport, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        Margin="4" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>

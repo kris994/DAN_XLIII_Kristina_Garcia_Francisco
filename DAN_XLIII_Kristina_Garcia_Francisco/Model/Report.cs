@@ -1,12 +1,10 @@
 ﻿using DAN_XLIII_Kristina_Garcia_Francisco.Helper;
+using DAN_XLIII_Kristina_Garcia_Francisco.ViewModel;
 using System.ComponentModel;
 
 namespace DAN_XLIII_Kristina_Garcia_Francisco.Model
 {
-    /// <summary>
-    /// Ucer partial view class
-    /// </summary>
-    public partial class vwUser : IDataErrorInfo
+    public partial class vwUserReport : BaseViewModel, IDataErrorInfo
     {
         Validation validation = new Validation();
 
@@ -15,12 +13,7 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.Model
         /// </summary>
         static readonly string[] ValidatedProperties =
         {
-            "JMBG",
-            "Gender",
-            "BankAccount",
-            "Email",
-            "Salary",
-            "Username"
+            "ReportHours"
         };
 
         /// <summary>
@@ -65,24 +58,8 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.Model
 
                 switch (propertyName)
                 {
-                    case "JMBG":
-                        result = this.validation.JMBGChecker(JMBG, UserID);
-                        break;
-
-                    case "Username":
-                        result = this.validation.UsernameChecker(Username, UserID);
-                        break;
-
-                    case "BankAccount":
-                        result = this.validation.TooShort(BankAccount, 6);
-                        break;
-
-                    case "Email":
-                        result = this.validation.IsValidEmailAddress(Email, UserID);
-                        break;
-
-                    case "Salary":
-                        result = this.validation.IsDouble(Salary);
+                    case "ReportHours":
+                        result = this.validation.TotalHours(ReportHours, ReportDate, ReportID);
                         break;
 
                     default:

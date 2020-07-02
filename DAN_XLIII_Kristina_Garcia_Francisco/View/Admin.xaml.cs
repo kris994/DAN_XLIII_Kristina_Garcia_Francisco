@@ -8,6 +8,9 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.View
     /// </summary>
     public partial class Admin : Window
     {
+        /// <summary>
+        /// Admin view
+        /// </summary>
         public Admin()
         {
             InitializeComponent();

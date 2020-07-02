@@ -121,6 +121,35 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco
         }
 
         /// <summary>
+        /// Gets all information about reports
+        /// </summary>
+        /// <returns>a list of found reports</returns>
+        public List<tblReport> GetAllWorkerReports(int UserID)
+        {
+            try
+            {
+                List<tblReport> list = new List<tblReport>();
+                using (ReportDBEntities context = new ReportDBEntities())
+                {
+                    for (int i = 0; i < GetAllReports().Count; i++)
+                    {
+                        if (GetAllReports()[i].UserID == UserID)
+                        {
+                            list.Add(GetAllReports()[i]);
+
+                        }
+                    }
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Creates or edits a worker
         /// </summary>
         /// <param name="worker">the worker that is esing added</param>
@@ -136,17 +165,19 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco
                     {
                         worker.DateOfBirth = iv.CountDateOfBirth(worker.JMBG);
 
-                        tblUser newWorker = new tblUser();
-                        newWorker.FirstName = worker.FirstName;
-                        newWorker.LastName = worker.LastName;
-                        newWorker.JMBG = worker.JMBG;
-                        newWorker.DateOfBirth = worker.DateOfBirth;
-                        newWorker.BankAccount = worker.BankAccount;
-                        newWorker.Email = worker.Email;
-                        newWorker.Position = worker.Position;
-                        newWorker.Salary = worker.Salary;
-                        newWorker.Username = worker.Username;
-                        newWorker.UserPassword = worker.UserPassword;
+                        tblUser newWorker = new tblUser
+                        {
+                            FirstName = worker.FirstName,
+                            LastName = worker.LastName,
+                            JMBG = worker.JMBG,
+                            DateOfBirth = worker.DateOfBirth,
+                            BankAccount = worker.BankAccount,
+                            Email = worker.Email,
+                            Position = worker.Position,
+                            Salary = worker.Salary,
+                            Username = worker.Username,
+                            UserPassword = worker.UserPassword
+                        };
 
                         context.tblUsers.Add(newWorker);
                         context.SaveChanges();
@@ -189,6 +220,59 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco
         }
 
         /// <summary>
+        /// Creates or edits a report
+        /// </summary>
+        /// <param name="report">the report that is being added</param>
+        /// <returns>a new or edited report</returns>
+        public vwUserReport AddReport(vwUserReport report)
+        {
+            InputCalculator iv = new InputCalculator();
+            try
+            {
+                using (ReportDBEntities context = new ReportDBEntities())
+                {
+                    if (report.ReportID == 0)
+                    {
+                        tblReport newReport = new tblReport
+                        {
+                            Project = report.Project,
+                            ReportDate = report.ReportDate,
+                            ReportHours = report.ReportHours,
+                            UserID = Service.LoggedInUser[0].UserID
+                        };
+
+                        context.tblReports.Add(newReport);
+                        context.SaveChanges();
+                        report.ReportID = newReport.ReportID;
+                        return report;
+                    }
+                    else
+                    {
+                        tblReport reportToEdit = (from ss in context.tblReports where ss.ReportID == report.ReportID select ss).First();
+
+                        reportToEdit.Project = report.Project;
+                        reportToEdit.ReportDate = report.ReportDate;
+                        reportToEdit.ReportHours = report.ReportHours;
+                        reportToEdit.UserID = report.UserID;
+
+                        reportToEdit.ReportID = report.ReportID;
+
+                        tblReport reportEdit = (from ss in context.tblReports
+                                              where ss.ReportID == report.ReportID
+                                              select ss).First();
+                        context.SaveChanges();
+                        return report;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception" + ex.Message.ToString());
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Creates or edits a manager
         /// </summary>
         /// <param name="manager">the manager that is esing added</param>
@@ -204,19 +288,21 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco
                     {
                         manager.DateOfBirth = iv.CountDateOfBirth(manager.JMBG);
 
-                        tblUser newManager = new tblUser();
-                        newManager.FirstName = manager.FirstName;
-                        newManager.LastName = manager.LastName;
-                        newManager.JMBG = manager.JMBG;
-                        newManager.DateOfBirth = manager.DateOfBirth;
-                        newManager.BankAccount = manager.BankAccount;
-                        newManager.Email = manager.Email;
-                        newManager.Position = manager.Position;
-                        newManager.Salary = manager.Salary;
-                        newManager.Username = manager.Username;
-                        newManager.UserPassword = manager.UserPassword;
-                        newManager.Sector = manager.Sector;
-                        newManager.Access = manager.Access;
+                        tblUser newManager = new tblUser
+                        {
+                            FirstName = manager.FirstName,
+                            LastName = manager.LastName,
+                            JMBG = manager.JMBG,
+                            DateOfBirth = manager.DateOfBirth,
+                            BankAccount = manager.BankAccount,
+                            Email = manager.Email,
+                            Position = manager.Position,
+                            Salary = manager.Salary,
+                            Username = manager.Username,
+                            UserPassword = manager.UserPassword,
+                            Sector = manager.Sector,
+                            Access = manager.Access
+                        };
 
                         context.tblUsers.Add(newManager);
                         context.SaveChanges();
@@ -291,23 +377,53 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco
         }
 
         /// <summary>
+        /// Search if report with that ID exists in the report table
+        /// </summary>
+        /// <param name="reportID">Takes the report id that we want to search for</param>
+        /// <returns>True if the report exists</returns>
+        public bool IsReportID(int reportID)
+        {
+            try
+            {
+                using (ReportDBEntities context = new ReportDBEntities())
+                {
+                    int result = (from x in context.tblReports where x.ReportID == reportID select x.ReportID).FirstOrDefault();
+
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception " + ex.Message.ToString());
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Deletes user, users records and identification card depending if the uderID already exists
         /// </summary>
-        /// <param name="user">the user that is being deleted</param>
+        /// <param name="userID">the user that is being deleted</param>
         /// <returns>list of users</returns>
         public void DeleteWorker(int userID)
         {
             InputCalculator iv = new InputCalculator();
-            List<tblReport> AllRportss = GetAllReports();
+            List<tblReport> AllReports = GetAllReports();
             try
             {
                 using (ReportDBEntities context = new ReportDBEntities())
                 {
                     bool isUser = IsUserID(userID);
                     // Delete are evidences from the user
-                    for (int i = 0; i < AllRportss.Count; i++)
+                    for (int i = 0; i < AllReports.Count; i++)
                     {
-                        if (AllRportss[i].UserID == userID)
+                        if (AllReports[i].UserID == userID)
                         {
                             tblReport report = (from r in context.tblReports where r.UserID == userID select r).First();
                             context.tblReports.Remove(report);
@@ -325,6 +441,39 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco
                     else
                     {
                         MessageBox.Show("Cannot delete the user");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception" + ex.Message.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Deletes user, users records and identification card depending if the uderID already exists
+        /// </summary>
+        /// <param name="reportID">the user that is being deleted</param>
+        /// <returns>list of users</returns>
+        public void DeleteReport(int reportID)
+        {
+            try
+            {
+                using (ReportDBEntities context = new ReportDBEntities())
+                {
+                    bool isReport = IsReportID(reportID);
+
+                    if (isReport == true)
+                    {
+                        // find the user and identification card before removing them
+                        tblReport reportToDelete = (from r in context.tblReports where r.ReportID == reportID select r).First();
+
+                        context.tblReports.Remove(reportToDelete);
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Cannot delete the report");
                     }
                 }
             }

@@ -5,12 +5,12 @@ using System.Windows.Data;
 namespace DAN_XLIII_Kristina_Garcia_Francisco.Converter
 {
     /// <summary>
-    /// Convertes the radio button values
+    /// Convertes the id of the user to the position
     /// </summary>
-    class RadioButtonConverter : IValueConverter
+    class ReportPositionConverter : IValueConverter
     {
         /// <summary>
-        /// Converts the parameter value into a string
+        /// Converts the parameter value into the user position
         /// </summary>
         /// <param name="value"></param>
         /// <param name="targetType"></param>
@@ -19,11 +19,20 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.Converter
         /// <returns></returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((string)parameter == (string)value);
+            Service service = new Service();
+            for (int i = 0; i < service.GetAllUsers().Count; i++)
+            {
+                if (service.GetAllUsers()[i].UserID == (int)value)
+                {
+                    return service.GetAllUsers()[i].Position;
+                }
+            }
+
+            return value;
         }
 
         /// <summary>
-        /// Reverts it back, not implemented
+        /// Converts back
         /// </summary>
         /// <param name="value"></param>
         /// <param name="targetType"></param>
@@ -32,7 +41,7 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.Converter
         /// <returns></returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (bool)value ? parameter : null;
+            throw new NotImplementedException();
         }
     }
 }

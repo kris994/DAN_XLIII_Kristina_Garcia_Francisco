@@ -70,6 +70,9 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
         #endregion
 
         #region Commands
+        /// <summary>
+        /// Command used to log te user into the application
+        /// </summary>
         private ICommand login;
         public ICommand Login
         {
@@ -83,6 +86,10 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
             }
         }
 
+        /// <summary>
+        /// Checks if its possible to login depending on the given username and password and saves the logged in user to a list
+        /// </summary>
+        /// <param name="obj"></param>
         private void LoginExecute(object obj)
         {
             string password = (obj as PasswordBox).Password;
