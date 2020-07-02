@@ -100,6 +100,7 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
         {
             return true;
         }
+
         #endregion
     }
 }

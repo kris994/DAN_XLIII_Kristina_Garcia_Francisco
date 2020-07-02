@@ -90,6 +90,7 @@
     <Compile Include="Model\tblUser.cs">
       <DependentUpon>ReportDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\User.cs" />
     <Compile Include="Model\vwManager.cs">
       <DependentUpon>ReportDB.tt</DependentUpon>
     </Compile>
@@ -101,11 +102,17 @@
     </Compile>
     <Compile Include="Service.cs" />
     <Compile Include="ViewModel\AddManagerViewModel.cs" />
+    <Compile Include="ViewModel\AddWorkerViewModel.cs" />
     <Compile Include="ViewModel\AdminViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\WorkerViewModel.cs" />
     <Compile Include="View\AddManager.xaml.cs">
       <DependentUpon>AddManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddWorker.xaml.cs">
+      <DependentUpon>AddWorker.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Admin.xaml.cs">
       <DependentUpon>Admin.xaml</DependentUpon>
@@ -126,6 +133,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\AddManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AddWorker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

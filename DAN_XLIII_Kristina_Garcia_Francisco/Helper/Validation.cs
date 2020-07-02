@@ -62,9 +62,9 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.Helper
 
         public string IsDouble(string salary)
         {
-            if (double.TryParse(salary, out double value) == false)
+            if (double.TryParse(salary, out double value) == false || value < 0)
             {
-                return "Not a valid double number";
+                return "Not a valid number";
             }
             else
             {

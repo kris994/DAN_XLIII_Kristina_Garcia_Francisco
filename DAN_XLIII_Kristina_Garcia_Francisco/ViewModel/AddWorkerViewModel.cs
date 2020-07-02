@@ -10,73 +10,86 @@ using System.Windows.Input;
 
 namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
 {
-    class AddManagerViewModel : BaseViewModel
-    {       
-        AddManager addManager;
+    class AddWorkerViewModel : BaseViewModel
+    {
+        AddWorker addWorker;
         Service service = new Service();
 
         #region Constructor
         /// <summary>
-        /// Constructor with the add manager info window opening
+        /// Constructor with the add worker info window opening
         /// </summary>
-        /// <param name="addManagerOpen">opends the add manager window</param>
-        public AddManagerViewModel(AddManager addManagerOpen)
+        /// <param name="addWorkerOpen">opends the add worker window</param>
+        public AddWorkerViewModel(AddWorker addWorkerOpen)
         {
-            manager = new vwManager();
-            addManager = addManagerOpen;
-            ManagerList = service.GetAllManagers().ToList();
+            worker = new vwUser();
+            addWorker = addWorkerOpen;
+            WorkerList = service.GetAllWorkers().ToList();
+        }
+
+
+        /// <summary>
+        /// Constructor with edit worker window opening
+        /// </summary>
+        /// <param name="addWorkerOpen">opens the add worker window</param>
+        /// <param name="workerEdit">gets the worker info that is being edited</param>
+        public AddWorkerViewModel(AddWorker addWorkerOpen, vwUser workerEdit)
+        {
+            worker = workerEdit;
+            addWorker = addWorkerOpen;
+            WorkerList = service.GetAllWorkers().ToList();
         }
         #endregion
 
         #region Property
-        private vwManager manager;
-        public vwManager Manager
+        private vwUser worker;
+        public vwUser Worker
         {
             get
             {
-                return manager;
+                return worker;
             }
             set
             {
-                manager = value;
-                OnPropertyChanged("Manager");
+                worker = value;
+                OnPropertyChanged("Worker");
             }
         }
 
-        private List<tblUser> managerList;
-        public List<tblUser> ManagerList
+        private List<tblUser> workerList;
+        public List<tblUser> WorkerList
         {
             get
             {
-                return managerList;
+                return workerList;
             }
             set
             {
-                managerList = value;
-                OnPropertyChanged("ManagerList");
+                workerList = value;
+                OnPropertyChanged("WorkerList");
             }
         }
 
         /// <summary>
         /// Cheks if its possible to execute the add and edit commands
         /// </summary>
-        private bool isUpdateManager;
-        public bool IsUpdateManager
+        private bool isUpdateWorker;
+        public bool IsUpdateWorker
         {
             get
             {
-                return isUpdateManager;
+                return isUpdateWorker;
             }
             set
             {
-                isUpdateManager = value;
+                isUpdateWorker = value;
             }
         }
         #endregion
 
         #region Commands
         /// <summary>
-        /// Command that tries to save the new manager
+        /// Command that tries to save the new worker
         /// </summary>
         private ICommand save;
         public ICommand Save
@@ -98,12 +111,10 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
         {
             try
             {
-                Admin adminView = new Admin();
-                service.AddManager(Manager);
-                IsUpdateManager = true;
-              
-                addManager.Close();
-                adminView.Show();
+                service.AddWorker(Worker);
+                IsUpdateWorker = true;
+
+                addWorker.Close();
             }
             catch (Exception ex)
             {
@@ -112,18 +123,18 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
         }
 
         /// <summary>
-        /// Checks if its possible to save the manager
+        /// Checks if its possible to save the worker
         /// </summary>
         protected bool CanSaveExecute
         {
             get
             {
-                return Manager.IsValid;
+                return Worker.IsValid;
             }
         }
 
         /// <summary>
-        /// Command that closes the add user or edit user window
+        /// Command that closes the add worker or edit worker window
         /// </summary>
         private ICommand cancel;
         public ICommand Cancel
@@ -145,9 +156,7 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
         {
             try
             {
-                Admin adminView = new Admin();
-                addManager.Close();
-                adminView.Show();
+                addWorker.Close();
             }
             catch (Exception ex)
             {
