@@ -5,8 +5,57 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DAN_XLIII_Kristina_Garcia_Francisco"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Label Content="Dashboard"/>
+        Title="MainWindow" Height="auto" MaxHeight="450" Width="auto" MaxWidth="800" Background="#5BCED0">
+    <Grid Margin="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+            <Button Width="80" Height="20" Name="btnAddWorker" Content="Add Worker"
+                    Command="{Binding AddNewWorker, UpdateSourceTrigger=PropertyChanged}" Margin="20,4,4,4" FontWeight="Bold"/>
+            <Button Width="80" Height="20" Name="btnLogoff" Content="Log Off"
+                    Command="{Binding Logoff, UpdateSourceTrigger=PropertyChanged}" Margin="20,4,4,4" FontWeight="Bold"/>
+        </StackPanel>
+        <Grid Grid.Column="1" Grid.Row="2" Height="auto" Width="auto">
+            <DataGrid Name="DataGridUsers" ItemsSource="{Binding WorkerList, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding User, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" HeadersVisibility="Column"
+                      AutoGenerateColumns="False"
+                      HorizontalGridLinesBrush="Black" BorderBrush="Black" Foreground="Black"
+                      FontWeight="Bold" Margin="20">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="First Name" Binding="{Binding FirstName}"/>
+                    <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}"/>
+                    <DataGridTextColumn Header="JMBG" Binding="{Binding JMBG}"/>
+                    <DataGridTextColumn Header="Date of Birth" Binding="{Binding DateOfBirth, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                    <DataGridTextColumn Header="Bank Account" Binding="{Binding BankAccount}"/>
+                    <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
+                    <DataGridTextColumn Header="Salary" Binding="{Binding Salary}"/>
+                    <DataGridTextColumn Header="Position" Binding="{Binding Position}"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="btnDeletePlayer" Content="Delete" 
+                                Command="{Binding DataContext.DeleteWorker, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        Margin="4" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Name="btnDeletePlayer" Content="Edit" 
+                                Command="{Binding DataContext.EditWorker, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                        Margin="4" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
     </Grid>
 </Window>
