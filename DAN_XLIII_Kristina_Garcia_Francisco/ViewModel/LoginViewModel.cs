@@ -16,13 +16,16 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
         Login view;
         Service service = new Service();
 
+        #region Constructor
         public LoginViewModel(Login loginView)
         {
             view = loginView;
             user = new tblUser();
             UserList = service.GetAllUsers().ToList();
         }
+        #endregion
 
+        #region Property
         private string infoLabel;
         public string InfoLabel
         {
@@ -64,7 +67,9 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
                 OnPropertyChanged("UserList");
             }
         }
+        #endregion
 
+        #region Commands
         private ICommand login;
         public ICommand Login
         {
@@ -81,16 +86,24 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
         private void LoginExecute(object obj)
         {
             string password = (obj as PasswordBox).Password;
+            bool found = false;
             if (UserList.Any())
             {
                 for (int i = 0; i < UserList.Count; i++)
                 {
                     if (User.Username == UserList[i].Username && password == UserList[i].UserPassword)
-                    {                       
+                    {
+                        InfoLabel = "Loggedin";
+                        found = true;
+                        service.LoggedInUser.Add(UserList[i]);
+                        break;
                     }
                 }
 
-                InfoLabel = "Incorrect Username or Password";
+                if (found == false)
+                {
+                    InfoLabel = "Wrong Username or Password";
+                }              
             }
             else
             {
@@ -99,10 +112,11 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
 
             if (User.Username == "WPFadmin" && password == "WPFadmin")
             {
-                MainWindow main = new MainWindow();
+                Admin admin = new Admin();
                 view.Close();
-                main.Show();
+                admin.Show();
             }
         }
+        #endregion
     }
 }

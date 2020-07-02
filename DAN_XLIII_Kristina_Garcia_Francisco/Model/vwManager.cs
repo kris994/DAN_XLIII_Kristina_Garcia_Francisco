@@ -27,6 +27,5 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.Model
         public string UserPassword { get; set; }
         public string Sector { get; set; }
         public string Access { get; set; }
-        public Nullable<int> ReportID { get; set; }
     }
 }
