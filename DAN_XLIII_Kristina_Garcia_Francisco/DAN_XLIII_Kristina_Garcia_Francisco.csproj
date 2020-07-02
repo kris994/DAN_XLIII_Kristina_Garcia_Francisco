@@ -67,6 +67,7 @@
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="Converter\RadioButtonConverter.cs" />
     <Compile Include="Helper\InputCalculator.cs" />
+    <Compile Include="Helper\LogMessage.cs" />
     <Compile Include="Helper\Validation.cs" />
     <Compile Include="Model\Manager.cs" />
     <Compile Include="Model\ReportDB.Context.cs">

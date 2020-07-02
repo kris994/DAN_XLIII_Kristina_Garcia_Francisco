@@ -1,8 +1,10 @@
 ﻿using DAN_XLIII_Kristina_Garcia_Francisco.Command;
+using DAN_XLIII_Kristina_Garcia_Francisco.Helper;
 using DAN_XLIII_Kristina_Garcia_Francisco.Model;
 using DAN_XLIII_Kristina_Garcia_Francisco.View;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -14,6 +16,7 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
     {       
         AddManager addManager;
         Service service = new Service();
+        private readonly BackgroundWorker bgWorker = new BackgroundWorker();
 
         #region Constructor
         /// <summary>
@@ -25,6 +28,7 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
             manager = new vwManager();
             addManager = addManagerOpen;
             ManagerList = service.GetAllManagers().ToList();
+            bgWorker.DoWork += WorkerOnDoWork;
         }
         #endregion
 
@@ -101,7 +105,13 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
                 Admin adminView = new Admin();
                 service.AddManager(Manager);
                 IsUpdateManager = true;
-              
+
+                if (!bgWorker.IsBusy)
+                {
+                    // This method will start the execution asynchronously in the background
+                    bgWorker.RunWorkerAsync();
+                }
+
                 addManager.Close();
                 adminView.Show();
             }
@@ -164,5 +174,18 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
             return true;
         }
         #endregion
+
+        /// <summary>
+        /// Writes the message to the log file.
+        /// </summary>
+        /// <param name="sender">object sender</param>
+        /// <param name="e">DoWorkEventArgs e</param>
+        public void WorkerOnDoWork(object sender, DoWorkEventArgs e)
+        {
+            LogMessage log = new LogMessage();
+            string message = log.Message("Added", Manager.FirstName, Manager.LastName);
+
+            log.LogFile(message);
+        }
     }
 }
