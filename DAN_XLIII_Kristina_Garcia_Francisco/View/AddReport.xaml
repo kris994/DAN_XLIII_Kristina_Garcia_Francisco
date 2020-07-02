@@ -5,8 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:DAN_XLIII_Kristina_Garcia_Francisco.View"
+        xmlns:vm="clr-namespace:DAN_XLIII_Kristina_Garcia_Francisco.Model"
         mc:Ignorable="d"
-        Title="AddReport" Height="200" Width="250">
+        Title="AddReport" Height="250" Width="250" Background="#5BCED0">
+    <Window.Resources>
+        <vm:vwUserReport x:Key="data"/>
+
+        <!--The tool tip for the TextBox to display the validation error message.-->
+        <Style x:Key="textBoxInError" TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -28,19 +43,22 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="6"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="6"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="15"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
+        <TextBlock Grid.Column="3" Grid.Row="11" Grid.ColumnSpan="4" FontSize="10">*Sometimes need to refresh hours.</TextBlock>
+        <TextBlock Grid.Column="3" Grid.Row="12" Grid.ColumnSpan="4" FontSize="10">When changing values in date.</TextBlock>
         <Label Grid.Column="1" Grid.Row="1" Name="lblProject" Content="Project:" Padding="0" HorizontalAlignment="Right"/>
         <Label Grid.Column="1" Grid.Row="3" Name="lblDate" Content="Date:" Padding="0" HorizontalAlignment="Right"/>
         <Label Grid.Column="1" Grid.Row="5" Name="lblHours" Content="Hours:" Padding="0" HorizontalAlignment="Right"/>
 
-        <TextBox Grid.Column="3" Grid.Row="1" Name="txtProject" Height="20" Width="150"
+        <TextBox Grid.Column="3" Grid.Row="1" Name="txtProject" Height="20" Width="150" Style="{StaticResource textBoxInError}"
                  Text="{Binding Report.Project, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
         <DatePicker Grid.Column="3" Grid.Row="3" Name="txtDate" Height="25" Width="150"
                  SelectedDate="{Binding Report.ReportDate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"></DatePicker>
-        <TextBox Grid.Column="3" Grid.Row="5" Name="txtHours" Height="20" Width="150"
+        <TextBox Grid.Column="3" Grid.Row="5" Name="txtHours" Height="20" Width="150" Style="{StaticResource textBoxInError}"
                  Text="{Binding Report.ReportHours, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                  PreviewTextInput="NumberValidationTextBox"/>
         

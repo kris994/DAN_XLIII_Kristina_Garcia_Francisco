@@ -12,6 +12,9 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.View
     /// </summary>
     public partial class AddManager : Window
     {
+        /// <summary>
+        /// Add manager
+        /// </summary>
         public AddManager()
         {
             InitializeComponent();

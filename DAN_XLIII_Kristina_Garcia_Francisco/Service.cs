@@ -409,7 +409,7 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco
         /// <summary>
         /// Deletes user, users records and identification card depending if the uderID already exists
         /// </summary>
-        /// <param name="user">the user that is being deleted</param>
+        /// <param name="userID">the user that is being deleted</param>
         /// <returns>list of users</returns>
         public void DeleteWorker(int userID)
         {

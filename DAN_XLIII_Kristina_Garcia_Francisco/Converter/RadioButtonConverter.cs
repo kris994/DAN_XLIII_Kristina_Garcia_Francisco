@@ -4,6 +4,9 @@ using System.Windows.Data;
 
 namespace DAN_XLIII_Kristina_Garcia_Francisco.Converter
 {
+    /// <summary>
+    /// Convertes the radio button values
+    /// </summary>
     class RadioButtonConverter : IValueConverter
     {
         /// <summary>

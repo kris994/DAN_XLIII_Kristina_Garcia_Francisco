@@ -30,7 +30,6 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.View
         {
             InitializeComponent();
             this.DataContext = new AddReportViewModel(this, reportEdit);
-            txtDate.SelectedDate = DateTime.Today;
         }
 
         /// <summary>

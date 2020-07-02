@@ -15,7 +15,7 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.Helper
         /// <summary>
         /// Validates the given string if its an email or not
         /// </summary>
-        /// <param name="s">string that is validated</param>
+        /// <param name="email">string that is validated</param>
         /// <param name="id">for the specific user</param>
         /// <returns>null if the input is correct or string error message if its wrong</returns>
         public string IsValidEmailAddress(string email, int id)
@@ -203,6 +203,82 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.Helper
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Validates the total hours for reports
+        /// </summary>
+        /// <param name="time">the reported time</param>
+        /// <param name="date">the reported date</param>
+        /// <param name="reportID">the specific report</param>
+        /// <returns></returns>
+        public string TotalHours(int time, DateTime date, int reportID)
+        {
+            Service service = new Service();
+            int countTime = 0;
+            // 0 for new reports
+            int currentReport = 0;
+            DateTime currentDate = default(DateTime);
+            int userId = 0;
+            int currentTime = 0;
+            int totalReports = 0;
+
+            // Find the user that wrote the report and the current time of the report
+            if (reportID == 0)
+            {
+                if (Service.LoggedInUser.Count > 0)
+                {
+                    userId = Service.LoggedInUser[0].UserID;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < service.GetAllReports().Count; i++)
+                {
+                    if (reportID == service.GetAllReports()[i].ReportID)
+                    {
+                        // Save this values when editing an existing report
+                        userId = (int)service.GetAllReports()[i].UserID;
+                        currentTime = service.GetAllReports()[i].ReportHours;
+                        currentDate = service.GetAllReports()[i].ReportDate;
+
+                        if (currentDate == date)
+                        {
+                            currentReport = 1;
+                        }
+                    }
+                }
+            }
+
+            // Find all reports from the user
+            for (int i = 0; i < service.GetAllWorkerReports(userId).Count; i++)
+            {
+                if (service.GetAllWorkerReports(userId)[i].ReportDate == date)
+                {
+                    countTime = service.GetAllWorkerReports(userId)[i].ReportHours + countTime;
+                    totalReports++;
+                }
+            }
+
+            // Total reports cannot be above 2
+            if (totalReports - currentReport >= 2)
+            {
+                return "Total Reports cannot be bigger than 2";
+            }
+
+            // Total hours cannot exceed 12
+            if (countTime + time - currentTime > 12)
+            {
+                return "Total hours for today has exceeded 12 hours.";
+            }
+
+            // Hour cannot be 0
+            if (time == 0)
+            {
+                return "Total hours cannot be 0";
+            }
+
+            return null;
         }
     }
 }

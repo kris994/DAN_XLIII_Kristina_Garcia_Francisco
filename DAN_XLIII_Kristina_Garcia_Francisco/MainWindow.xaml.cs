@@ -8,6 +8,9 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Main Window
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();

@@ -16,7 +16,7 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.View
         /// <summary>
         /// Window constructor for editing workers
         /// </summary>
-        /// <param name="workerEdit">worker that is bing edited</param>
+        /// <param name="userEdit">worker that is bing edited</param>
         public AddWorker(vwUser userEdit)
         {
             InitializeComponent();

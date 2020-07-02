@@ -73,7 +73,7 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
         }
 
         /// <summary>
-        /// List of all Workers
+        /// List of all worker reports
         /// </summary>
         private List<tblReport> workerReportList;
         public List<tblReport> WorkerReportList
@@ -140,6 +140,9 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
             }
         }
 
+        /// <summary>
+        /// User with modify access
+        /// </summary>
         private Visibility modifyVisibility;
         public Visibility ModifyVisibility
         {
@@ -154,6 +157,9 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
             }
         }
 
+        /// <summary>
+        /// User with crud access
+        /// </summary>
         private Visibility workerVisibility;
         public Visibility WorkerVisibility
         {
@@ -168,6 +174,9 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
             }
         }
 
+        /// <summary>
+        /// User with sector access
+        /// </summary>
         private Visibility sectorVisibility;
         public Visibility SectorVisibility
         {
@@ -182,6 +191,9 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
             }
         }
 
+        /// <summary>
+        /// User with all report access
+        /// </summary>
         private Visibility allReportsVisibility;
         public Visibility AllReportsVisibility
         {
@@ -196,6 +208,9 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
             }
         }
 
+        /// <summary>
+        /// User with personal report access
+        /// </summary>
         private Visibility reportVisibility;
         public Visibility ReportVisibility
         {
@@ -255,6 +270,9 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
             }
         }
 
+        /// <summary>
+        /// Checks on what users can see and do with other users
+        /// </summary>
         public void AccessModifier()
         {
             if (Service.LoggedInUser[0].Access == null)
@@ -274,6 +292,9 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
             }
         }
 
+        /// <summary>
+        /// Checks what users can do to reports
+        /// </summary>
         public void SectorModifier()
         {
             if (Service.LoggedInUser[0].Sector == null)
@@ -290,12 +311,16 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
                 AllReportsVisibility = Visibility.Visible;
                 SectorVisibility = Visibility.Visible;
             }
-            else
+            else if (Service.LoggedInUser[0].Sector.Contains("RD"))
             {
+                AllReportsVisibility = Visibility.Collapsed;
                 sectorVisibility = Visibility.Collapsed;
             }
         }
 
+        /// <summary>
+        /// Only visible to the user that owns the reports
+        /// </summary>
         public void ReportVisibilityModifier()
         {
             if (Service.LoggedInUser[0].Sector == null)

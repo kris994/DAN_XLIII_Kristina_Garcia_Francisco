@@ -21,7 +21,7 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
         /// <summary>
         /// Constructor with the add report info window opening
         /// </summary>
-        /// <param name="addWorkerOpen">opends the add report window</param>
+        /// <param name="addReportOpen">opends the add report window</param>
         public AddReportViewModel(AddReport addReportOpen)
         {
             report = new vwUserReport();
@@ -32,10 +32,10 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
 
 
         /// <summary>
-        /// Constructor with edit worker window opening
+        /// Constructor with edit report window opening
         /// </summary>
-        /// <param name="addWorkerOpen">opens the add worker window</param>
-        /// <param name="workerEdit">gets the worker info that is being edited</param>
+        /// <param name="addReportOpen">opens the add report window</param>
+        /// <param name="reportEdit">gets the report info that is being edited</param>
         public AddReportViewModel(AddReport addReportOpen, vwUserReport reportEdit)
         {
             report = reportEdit;
@@ -125,7 +125,7 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
             {
                 if (save == null)
                 {
-                    save = new RelayCommand(param => SaveExecute(), param => CanSaveExecute());
+                    save = new RelayCommand(param => SaveExecute(), param => this.CanSaveExecute);
                 }
                 return save;
             }
@@ -152,9 +152,12 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
         /// <summary>
         /// Checks if its possible to save the worker
         /// </summary>
-        protected bool CanSaveExecute()
+        protected bool CanSaveExecute
         {
-            return true;
+            get
+            {
+                return Report.IsValid;
+            }
         }
 
         /// <summary>

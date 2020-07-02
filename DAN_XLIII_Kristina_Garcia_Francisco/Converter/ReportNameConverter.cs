@@ -4,6 +4,9 @@ using System.Windows.Data;
 
 namespace DAN_XLIII_Kristina_Garcia_Francisco.Converter
 {
+    /// <summary>
+    /// Convertes the id of the user to the name
+    /// </summary>
     class ReportNameConverter : IValueConverter
     {
         /// <summary>
