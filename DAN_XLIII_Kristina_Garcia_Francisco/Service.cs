@@ -16,7 +16,7 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco
         /// <summary>
         /// Saves the loggdin user
         /// </summary>
-        public List<tblUser> LoggedInUser = new List<tblUser>();
+        public static List<tblUser> LoggedInUser = new List<tblUser>();
 
         /// <summary>
         /// Gets all information about users

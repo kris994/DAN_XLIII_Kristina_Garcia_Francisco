@@ -28,6 +28,7 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
         {
             main = mainOpen;
             WorkerList = service.GetAllWorkers().ToList();
+            AccessModifier();
         }
         #endregion
 
@@ -82,6 +83,34 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
                 OnPropertyChanged("User");
             }
         }
+
+        private Visibility modifyVisibility;
+        public Visibility ModifyVisibility
+        {
+            get
+            {
+                return modifyVisibility;
+            }
+            set
+            {
+                modifyVisibility = value;
+                OnPropertyChanged("ModifyVisibility");
+            }
+        }
+
+        private Visibility workerVisibility;
+        public Visibility WorkerVisibility
+        {
+            get
+            {
+                return workerVisibility;
+            }
+            set
+            {
+                workerVisibility = value;
+                OnPropertyChanged("WorkerVisibility");
+            }
+        }
         #endregion
 
         /// <summary>
@@ -103,6 +132,25 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message.ToString());
                 return null;
+            }
+        }
+
+        public void AccessModifier()
+        {
+            if (Service.LoggedInUser[0].Access == null)
+            {
+                ModifyVisibility = Visibility.Hidden;
+                WorkerVisibility = Visibility.Hidden;
+            }
+            else if (Service.LoggedInUser[0].Access.Contains("Read-Only"))
+            {
+                ModifyVisibility = Visibility.Hidden;
+                WorkerVisibility = Visibility.Visible;
+            }
+            else if (Service.LoggedInUser[0].Access.Contains("Modify"))
+            {
+                ModifyVisibility = Visibility.Visible;
+                WorkerVisibility = Visibility.Visible;
             }
         }
 
@@ -285,6 +333,8 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
                 {
                     logoff = new RelayCommand(param => LogoffExecute(), param => CanLogoffExecute());
                 }
+
+                Service.LoggedInUser.RemoveAt(0);
                 return logoff;
             }
         }

@@ -16,12 +16,12 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
-            <Button Width="80" Height="20" Name="btnAddWorker" Content="Add Worker"
-                    Command="{Binding AddNewWorker, UpdateSourceTrigger=PropertyChanged}" Margin="20,4,4,4" FontWeight="Bold"/>
             <Button Width="80" Height="20" Name="btnLogoff" Content="Log Off"
                     Command="{Binding Logoff, UpdateSourceTrigger=PropertyChanged}" Margin="20,4,4,4" FontWeight="Bold"/>
+            <Button Width="80" Height="20" Name="btnAddWorker" Content="Add Worker" Visibility="{Binding ModifyVisibility}"
+                    Command="{Binding AddNewWorker, UpdateSourceTrigger=PropertyChanged}" Margin="20,4,4,4" FontWeight="Bold"/>
         </StackPanel>
-        <Grid Grid.Column="1" Grid.Row="2" Height="auto" Width="auto">
+        <Grid Grid.Column="1" Grid.Row="2" Height="auto" Width="auto" Visibility="{Binding WorkerVisibility}">
             <DataGrid Name="DataGridUsers" ItemsSource="{Binding WorkerList, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding User, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" HeadersVisibility="Column"
                       AutoGenerateColumns="False"
@@ -39,20 +39,40 @@
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Name="btnDeletePlayer" Content="Delete" 
+                                <Button Name="btnDeleteWorker" Content="Delete" 
                                 Command="{Binding DataContext.DeleteWorker, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
                                         Margin="4" FontWeight="Bold"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="Visibility" Value="{Binding DataContext.ModifyVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"/>
+                            </Style>
+                        </DataGridTemplateColumn.CellStyle>
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Visibility" Value="{Binding Path=DataContext.ModifyVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" />
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn>
+                    <DataGridTemplateColumn Visibility="{Binding Path=DataContext.ModifyVisibility}">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Name="btnDeletePlayer" Content="Edit" 
+                                <Button Name="btnWorker" Content="Edit"
                                 Command="{Binding DataContext.EditWorker, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
                                         Margin="4" FontWeight="Bold"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="Visibility" Value="{Binding DataContext.ModifyVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"/>
+                            </Style>
+                        </DataGridTemplateColumn.CellStyle>
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Visibility" Value="{Binding Path=DataContext.ModifyVisibility, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" />
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
