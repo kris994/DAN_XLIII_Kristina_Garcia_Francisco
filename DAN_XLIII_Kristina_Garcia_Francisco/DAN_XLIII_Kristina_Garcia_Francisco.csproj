@@ -66,6 +66,8 @@
     </ApplicationDefinition>
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="Converter\RadioButtonConverter.cs" />
+    <Compile Include="Converter\ReportNameConverter.cs" />
+    <Compile Include="Converter\ReportPositionConverter.cs" />
     <Compile Include="Helper\InputCalculator.cs" />
     <Compile Include="Helper\LogMessage.cs" />
     <Compile Include="Helper\Validation.cs" />
@@ -103,6 +105,7 @@
     </Compile>
     <Compile Include="Service.cs" />
     <Compile Include="ViewModel\AddManagerViewModel.cs" />
+    <Compile Include="ViewModel\AddReportViewModel.cs" />
     <Compile Include="ViewModel\AddWorkerViewModel.cs" />
     <Compile Include="ViewModel\AdminViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
@@ -111,6 +114,9 @@
     <Compile Include="ViewModel\WorkerViewModel.cs" />
     <Compile Include="View\AddManager.xaml.cs">
       <DependentUpon>AddManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\AddReport.xaml.cs">
+      <DependentUpon>AddReport.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\AddWorker.xaml.cs">
       <DependentUpon>AddWorker.xaml</DependentUpon>
@@ -134,6 +140,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\AddManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\AddReport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
