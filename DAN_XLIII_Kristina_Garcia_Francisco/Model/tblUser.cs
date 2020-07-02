@@ -14,6 +14,12 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.Model
     
     public partial class tblUser
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblUser()
+        {
+            this.tblReports = new HashSet<tblReport>();
+        }
+    
         public int UserID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -27,8 +33,8 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.Model
         public string UserPassword { get; set; }
         public string Sector { get; set; }
         public string Access { get; set; }
-        public Nullable<int> ReportID { get; set; }
     
-        public virtual tblReport tblReport { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblReport> tblReports { get; set; }
     }
 }

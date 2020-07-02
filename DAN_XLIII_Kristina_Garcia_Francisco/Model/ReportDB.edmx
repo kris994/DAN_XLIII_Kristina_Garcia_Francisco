@@ -13,6 +13,7 @@
           <Property Name="ReportDate" Type="date" Nullable="false" />
           <Property Name="Project" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="ReportHours" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" />
         </EntityType>
         <EntityType Name="tblUser">
           <Key>
@@ -31,7 +32,6 @@
           <Property Name="UserPassword" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="Sector" Type="varchar" MaxLength="20" />
           <Property Name="Access" Type="char" MaxLength="20" />
-          <Property Name="ReportID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ReportDB.dbo.vwManager' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -62,7 +62,6 @@ warning 6002: The table/view 'ReportDB.dbo.vwManager' does not have a primary ke
           <Property Name="UserPassword" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="Sector" Type="varchar" MaxLength="20" />
           <Property Name="Access" Type="char" MaxLength="20" />
-          <Property Name="ReportID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ReportDB.dbo.vwUser' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -108,19 +107,20 @@ warning 6002: The table/view 'ReportDB.dbo.vwUserReport' does not have a primary
           <Property Name="ReportDate" Type="date" Nullable="false" />
           <Property Name="Project" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="ReportHours" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" />
           <Property Name="FirstName" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="40" Nullable="false" />
           <Property Name="Position" Type="varchar" MaxLength="40" Nullable="false" />
         </EntityType>
-        <Association Name="FK__tblUser__ReportI__3C69FB99">
-          <End Role="tblReport" Type="Self.tblReport" Multiplicity="0..1" />
-          <End Role="tblUser" Type="Self.tblUser" Multiplicity="*" />
+        <Association Name="FK__tblReport__UserI__6B24EA82">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
+          <End Role="tblReport" Type="Self.tblReport" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="tblReport">
-              <PropertyRef Name="ReportID" />
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserID" />
             </Principal>
-            <Dependent Role="tblUser">
-              <PropertyRef Name="ReportID" />
+            <Dependent Role="tblReport">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -141,8 +141,7 @@ warning 6002: The table/view 'ReportDB.dbo.vwUserReport' does not have a primary
     [vwManager].[Username] AS [Username], 
     [vwManager].[UserPassword] AS [UserPassword], 
     [vwManager].[Sector] AS [Sector], 
-    [vwManager].[Access] AS [Access], 
-    [vwManager].[ReportID] AS [ReportID]
+    [vwManager].[Access] AS [Access]
     FROM [dbo].[vwManager] AS [vwManager]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vwUser" EntityType="Self.vwUser" store:Type="Views" store:Schema="dbo">
@@ -166,14 +165,15 @@ warning 6002: The table/view 'ReportDB.dbo.vwUserReport' does not have a primary
     [vwUserReport].[ReportDate] AS [ReportDate], 
     [vwUserReport].[Project] AS [Project], 
     [vwUserReport].[ReportHours] AS [ReportHours], 
+    [vwUserReport].[UserID] AS [UserID], 
     [vwUserReport].[FirstName] AS [FirstName], 
     [vwUserReport].[LastName] AS [LastName], 
     [vwUserReport].[Position] AS [Position]
     FROM [dbo].[vwUserReport] AS [vwUserReport]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK__tblUser__ReportI__3C69FB99" Association="Self.FK__tblUser__ReportI__3C69FB99">
-            <End Role="tblReport" EntitySet="tblReport" />
+          <AssociationSet Name="FK__tblReport__UserI__6B24EA82" Association="Self.FK__tblReport__UserI__6B24EA82">
             <End Role="tblUser" EntitySet="tblUser" />
+            <End Role="tblReport" EntitySet="tblReport" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -189,7 +189,8 @@ warning 6002: The table/view 'ReportDB.dbo.vwUserReport' does not have a primary
           <Property Name="ReportDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Project" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ReportHours" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tblUsers" Relationship="Self.FK__tblUser__ReportI__3C69FB99" FromRole="tblReport" ToRole="tblUser" />
+          <Property Name="UserID" Type="Int32" />
+          <NavigationProperty Name="tblUser" Relationship="Self.FK__tblReport__UserI__6B24EA82" FromRole="tblReport" ToRole="tblUser" />
         </EntityType>
         <EntityType Name="tblUser">
           <Key>
@@ -208,8 +209,7 @@ warning 6002: The table/view 'ReportDB.dbo.vwUserReport' does not have a primary
           <Property Name="UserPassword" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Sector" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Access" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
-          <Property Name="ReportID" Type="Int32" />
-          <NavigationProperty Name="tblReport" Relationship="Self.FK__tblUser__ReportI__3C69FB99" FromRole="tblUser" ToRole="tblReport" />
+          <NavigationProperty Name="tblReports" Relationship="Self.FK__tblReport__UserI__6B24EA82" FromRole="tblUser" ToRole="tblReport" />
         </EntityType>
         <EntityType Name="vwManager">
           <Key>
@@ -238,7 +238,6 @@ warning 6002: The table/view 'ReportDB.dbo.vwUserReport' does not have a primary
           <Property Name="UserPassword" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Sector" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Access" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
-          <Property Name="ReportID" Type="Int32" />
         </EntityType>
         <EntityType Name="vwUser">
           <Key>
@@ -280,19 +279,20 @@ warning 6002: The table/view 'ReportDB.dbo.vwUserReport' does not have a primary
           <Property Name="ReportDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Project" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ReportHours" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" />
           <Property Name="FirstName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="LastName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Position" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
-        <Association Name="FK__tblUser__ReportI__3C69FB99">
-          <End Role="tblReport" Type="Self.tblReport" Multiplicity="0..1" />
-          <End Role="tblUser" Type="Self.tblUser" Multiplicity="*" />
+        <Association Name="FK__tblReport__UserI__6B24EA82">
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="0..1" />
+          <End Role="tblReport" Type="Self.tblReport" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="tblReport">
-              <PropertyRef Name="ReportID" />
+            <Principal Role="tblUser">
+              <PropertyRef Name="UserID" />
             </Principal>
-            <Dependent Role="tblUser">
-              <PropertyRef Name="ReportID" />
+            <Dependent Role="tblReport">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -302,9 +302,9 @@ warning 6002: The table/view 'ReportDB.dbo.vwUserReport' does not have a primary
           <EntitySet Name="vwManagers" EntityType="Self.vwManager" />
           <EntitySet Name="vwUsers" EntityType="Self.vwUser" />
           <EntitySet Name="vwUserReports" EntityType="Self.vwUserReport" />
-          <AssociationSet Name="FK__tblUser__ReportI__3C69FB99" Association="Self.FK__tblUser__ReportI__3C69FB99">
-            <End Role="tblReport" EntitySet="tblReports" />
+          <AssociationSet Name="FK__tblReport__UserI__6B24EA82" Association="Self.FK__tblReport__UserI__6B24EA82">
             <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblReport" EntitySet="tblReports" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -320,6 +320,7 @@ warning 6002: The table/view 'ReportDB.dbo.vwUserReport' does not have a primary
                 <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
                 <ScalarProperty Name="Project" ColumnName="Project" />
                 <ScalarProperty Name="ReportHours" ColumnName="ReportHours" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -339,7 +340,6 @@ warning 6002: The table/view 'ReportDB.dbo.vwUserReport' does not have a primary
                 <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
                 <ScalarProperty Name="Sector" ColumnName="Sector" />
                 <ScalarProperty Name="Access" ColumnName="Access" />
-                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -359,7 +359,6 @@ warning 6002: The table/view 'ReportDB.dbo.vwUserReport' does not have a primary
                 <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
                 <ScalarProperty Name="Sector" ColumnName="Sector" />
                 <ScalarProperty Name="Access" ColumnName="Access" />
-                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -387,6 +386,7 @@ warning 6002: The table/view 'ReportDB.dbo.vwUserReport' does not have a primary
                 <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
                 <ScalarProperty Name="Project" ColumnName="Project" />
                 <ScalarProperty Name="ReportHours" ColumnName="ReportHours" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Position" ColumnName="Position" />

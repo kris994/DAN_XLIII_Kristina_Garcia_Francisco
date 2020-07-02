@@ -18,6 +18,7 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.Model
         public System.DateTime ReportDate { get; set; }
         public string Project { get; set; }
         public int ReportHours { get; set; }
+        public Nullable<int> UserID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Position { get; set; }
