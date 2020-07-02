@@ -49,7 +49,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Name="btnDeleteWorker" Content="Delete" 
-                                Command="{Binding DataContext.DeleteReport, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                Command="{Binding DataContext.DeleteWorker, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
                                         Margin="4" FontWeight="Bold"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -68,7 +68,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Name="btnWorker" Content="Edit"
-                                Command="{Binding DataContext.EditReport, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
+                                Command="{Binding DataContext.EditWorker, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" 
                                         Margin="4" FontWeight="Bold"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

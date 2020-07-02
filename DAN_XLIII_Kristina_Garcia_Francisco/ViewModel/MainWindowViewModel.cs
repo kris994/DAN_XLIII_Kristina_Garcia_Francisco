@@ -552,6 +552,8 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.ViewModel
                         service.DeleteWorker(userID);
                         WorkerList = service.GetAllWorkers().ToList();
                         UserList = service.GetAllUsers().ToList();
+                        ReportList = service.GetAllReports().ToList();
+                        WorkerReportList = service.GetAllWorkerReports(Service.LoggedInUser[0].UserID).ToList();
                     }
                 }
                 catch (Exception ex)
