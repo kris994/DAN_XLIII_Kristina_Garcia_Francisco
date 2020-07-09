@@ -26,35 +26,33 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.Helper
             List<tblUser> AllUsers = service.GetAllUsers();
             string currentEmail = "";
 
-            try
+            if (email == null)
             {
-                // Get the current users email
-                for (int i = 0; i < AllUsers.Count; i++)
-                {
-                    if (AllUsers[i].UserID == id)
-                    {
-                        currentEmail = AllUsers[i].Email;
-                        break;
-                    }
-                }
+                return "Email cannot be empty.";
+            }
 
-                // Check if the email already exists, but it is not the current user email
-                for (int i = 0; i < AllUsers.Count; i++)
+            // Get the current users email
+            for (int i = 0; i < AllUsers.Count; i++)
+            {
+                if (AllUsers[i].UserID == id)
                 {
-                    if (AllUsers[i].Email == email && currentEmail != email)
-                    {
-                        return "This Email already exists!";
-                    }
-                }
-
-                if (regex.IsMatch(email) == false)
-                {
-                    return "Invalid email";
+                    currentEmail = AllUsers[i].Email;
+                    break;
                 }
             }
-            catch (ArgumentNullException)
+
+            // Check if the email already exists, but it is not the current user email
+            for (int i = 0; i < AllUsers.Count; i++)
             {
-                return "Email cannot be empty";
+                if (AllUsers[i].Email == email && currentEmail != email)
+                {
+                    return "This Email already exists!";
+                }
+            }
+
+            if (regex.IsMatch(email) == false)
+            {
+                return "Invalid email";
             }
 
             return null;
@@ -86,43 +84,41 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.Helper
             DateTime dt = default(DateTime);
             string currentJbmg = "";
 
-            try
+            if (jmbg == null)
             {
-                // Get the current users jmbg
-                for (int i = 0; i < AllUsers.Count; i++)
-                {
-                    if (AllUsers[i].UserID == id)
-                    {
-                        currentJbmg = AllUsers[i].JMBG;
-                        break;
-                    }
-                }
+                return "JMBG cannot be empty.";
+            }
 
-                // Check if the jmbg already exists, but it is not the current user jmbg
-                for (int i = 0; i < AllUsers.Count; i++)
+            // Get the current users jmbg
+            for (int i = 0; i < AllUsers.Count; i++)
+            {
+                if (AllUsers[i].UserID == id)
                 {
-                    if (AllUsers[i].JMBG == jmbg && currentJbmg != jmbg)
-                    {
-                        return "This JMBG already exists!";
-                    }
-                }
-
-                if (!(jmbg.Length == 13))
-                {
-                    return "Please enter a number with 13 characters.";
-                }
-
-                // Get date
-                dt = iv.CountDateOfBirth(jmbg);
-
-                if (dt == default(DateTime))
-                {
-                    return "Incorrect JMBG Format.";
+                    currentJbmg = AllUsers[i].JMBG;
+                    break;
                 }
             }
-            catch (NullReferenceException)
+
+            // Check if the jmbg already exists, but it is not the current user jmbg
+            for (int i = 0; i < AllUsers.Count; i++)
+            {
+                if (AllUsers[i].JMBG == jmbg && currentJbmg != jmbg)
+                {
+                    return "This JMBG already exists!";
+                }
+            }
+
+            if (!(jmbg.Length == 13))
             {
                 return "Please enter a number with 13 characters.";
+            }
+
+            // Get date
+            dt = iv.CountDateOfBirth(jmbg);
+
+            if (dt == default(DateTime))
+            {
+                return "Incorrect JMBG Format.";
             }
 
             return null;
@@ -141,30 +137,27 @@ namespace DAN_XLIII_Kristina_Garcia_Francisco.Helper
             List<tblUser> AllUsers = service.GetAllUsers();
             string currectUsername = "";
 
-            try
-            {
-                // Get the current users username
-                for (int i = 0; i < AllUsers.Count; i++)
-                {
-                    if (AllUsers[i].UserID == id)
-                    {
-                        currectUsername = AllUsers[i].Username;
-                        break;
-                    }
-                }
-
-                // Check if the username already exists, but it is not the current user username
-                for (int i = 0; i < AllUsers.Count; i++)
-                {
-                    if (AllUsers[i].Username == username && currectUsername != username)
-                    {
-                        return "This Username already exists!";
-                    }
-                }
-            }
-            catch (NullReferenceException)
+            if (username == null)
             {
                 return "Username cannot be empty.";
+            }
+            // Get the current users username
+            for (int i = 0; i < AllUsers.Count; i++)
+            {
+                if (AllUsers[i].UserID == id)
+                {
+                    currectUsername = AllUsers[i].Username;
+                    break;
+                }
+            }
+
+            // Check if the username already exists, but it is not the current user username
+            for (int i = 0; i < AllUsers.Count; i++)
+            {
+                if (AllUsers[i].Username == username && currectUsername != username)
+                {
+                    return "This Username already exists!";
+                }
             }
 
             return null;
